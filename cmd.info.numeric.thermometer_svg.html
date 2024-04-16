@@ -2,7 +2,8 @@
   <!-- ################ Thermometer SVG ################
     Widget name : cmd.info.numeric.thermometer_svg
     Author : Phpvarious
-    Last Uptade : 2024/04/15 22h00 - Création
+    Inspiration : https://github.com/JEALG/JEEDOM-Thermometre
+    Last Uptade : 2024/04/16 06h30 - Phpvarious
   -->
   <div class="title #hide_name#">
     <div class="cmdName" style="#hideCmdName#">#name_display#</div>
@@ -53,12 +54,13 @@
         if (position < minValue) position = minValue
         let height = ((position - minValue) * 100) / (maxValue - minValue)
         let height2 = height / 100 * 72
-        let height3 = 70 - height2 //65
+        let height3 = 70 - height2
         let gradient = (height / 100 * 30) + 10
         if ('#time#' == 'duration' || '#time#' == 'date') {
           if (typeof jQuery !== 'function') jeedom.cmd.displayDuration(_options.valueDate, cmd.querySelector('.timeCmd'), '#time#')
           else jeedom.cmd.displayDuration(_options.valueDate, $('.cmd[data-cmd_id=#id#]').find('.timeCmd'), '#time#')
         }
+        cmd.querySelector('.content-xs').setAttribute('title', '{{Date de valeur}}: ' + _options.valueDate + '<br>{{Date de collecte}}: ' + _options.collectDate)
         cmd.querySelector('.value-#uid#').innerHTML = _options.value + '#unite#'
         cmd.querySelector('.height-#uid#').style.height = height2 + 'px'
         cmd.querySelector('.value-#uid#').style.top = height3 + 'px'
@@ -66,8 +68,7 @@
         cmd.querySelector('.maxText-#uid#').innerHTML = maxValue + '#unite#'
         document.documentElement.style.setProperty('--gradient-#uid#', gradient+'%')
       }
-    })
-    
+    })    
     jeedom.cmd.refreshValue([{ cmd_id: '#id#', value: '#value#', display_value: '#state#', valueDate: '#valueDate#', collectDate: '#collectDate#', alertLevel: '#alertLevel#', unit: '#unite#', raw_unit: '#raw_unite#'}])
   </script>
   <style>
